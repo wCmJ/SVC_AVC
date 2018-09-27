@@ -1,0 +1,71 @@
+SVC: scalable video coding
+    is a newer form of video compression which dynamically adjusts the frame rate or resolution in real-time based on varying network conditions.
+    For example, if one participants's network becomes congested by other applications on their network the call rate will automatically decrease in order to preserve call integrity at the cost of slightly lower call quality.
+    one downside to SVC is that there may be increased processing required at the endpoint to support the constant monitoring of packet loss and there may be increased bandwidth compared to AVC to support similar resolutions.
+    
+
+AVC: advanced video coding
+    is currently one of the most commmonly used formats for audio/video compression.
+    a core concept in AVC compression is the use of a specified resolution and frame rate in every call.
+    the specific call quality(SD, 720pHD, or 1080pHD to name a few) which is used in a particular call
+    is based on a negotiation between endpoints or bridges in a call about the capabilitied which they can support.
+    one downside is that the endpoints in many cases can support qualities that the network between them may not be able to support.
+    in this situation the endpoints agree to connect at the best quality they are capable of,
+    but when the network cannot accommodate all of that digital data, packets are dropped and video can become choppy or completely freeze.
+    
+SVC may be a better option for an organization looking to deploy a softvideo client to their entire organization on a shared network that is shared by many other applications.
+
+AVC may be a better option for a more controlled network environment where QoS can be implemented to ensure a time-sensitive data such as real-time conferencing data does not compete with other data 
+    which may not be time-sensitive(such as co-workers watching YouTube)
+
+RMX: RealPresence Collaboration Server
+    AVC CP only
+        H.263, H.264 AVC, and RTV
+        all polycom SVC-enabled endpoints support the H.264 AVC protocol and can connect to an AVC CP only conference.
+    SVC only
+        only the H.264 SVC protocol is supported. endpoints that do not support the H.264 SVC protocol cnnot connect to an SVC only conference
+    Mixed AVC CP and SVC
+        SVC endpoints transmit multiple resolutions and temporal layers to the RMX
+        AVC endpoints send only one H.264 AVC video stream to the collaboration server
+        other endpoints types can send different kinds of video streams.
+
+  user plane            access plane            media plane               call control plane        management and provisioning plane
+    RPD         ->          RPAD        ->          RMX             ->          DMA             ->              RPRM
+(SVC and SIP)       (H264 SVC adn SIP)          ()
+                    control and manage 
+                    information security        RSS(video recoding, 
+                                                archiving, and streaming)
+user plane: SVC clients, SIP endpoints, H323 endpoints
+
+access plane: controls the flow of data from the endpoints to the media servers.
+              ISDN PBX, RPAD(access director)
+              these devices are used to control and manage information security.
+              firewalls can be deployed for additional security.
+              
+media plane: RMX, RSS(video recording, archiving and streaming)
+             RMX communicates with the DMA as the SIP server.
+             
+call control plane: DMA 
+                    is responsible for call control, signaling, and acts as the conference focus.
+                    is the SIP server for the SVC conferencing solution.
+              
+management and provisioning plane: RPRM
+                                   The RealPresence Resource Manager controls and manages all enterprise management applications 
+                                   and servers, such as Authentication, DNS, email, in addition to client provisioning 
+                                   through the enterprise Management User Interface (UI) 
+
+RealPresence DMA
+    The RealPresence DMA is the primary server communicating between the SVC endpoints and the
+    RealPresence Collaboration Server (RMX). The RealPresence DMA is responsible for managing
+    conferences, call control, signaling, and acting as the conference focus. It communicates with the
+    RealPresence Collaboration Server (RMX) using the SIP protocol. The RealPresence DMA also provides a
+    REST API for creating Virtual Meeting Rooms (VMRs). To enable SVC-based conferences on VMRs, you
+    configure the Conference Template in the RealPresence DMA. 
+
+RealPresence Collaboration Server (RMX)
+    In the SVC conferencing environment, the RealPresence Collaboration Server (RMX) functions as a media
+    relay server. The RealPresence Collaboration Server (RMX) does not perform encoding and decoding or
+    any transcoding between the endpoints as it would normally do in an AVC conferencing environment. The
+    RealPresence Collaboration Server (RMX) determines in real-time which of the incoming video streams to
+    send to each endpoint.
+
